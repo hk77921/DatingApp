@@ -9,19 +9,46 @@
       <a class="nav-link" href="#">Lists</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#" tabindex="-1" aria-disabled="true"
-        >Message</a
-      >
+      <a class="nav-link" href="#">Message</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="logout()">Logout</a>
     </li>
   </ul>
-  <form #loginform ="ngForm" class="form-inline my-2 my-lg-0" (submit)="login()">
-    <input name ="username"  required [(ngModel)]=model.Username 
+
+  <div *ngIf= "loggedIn()" class="dropdown">
+    <a class="dropdown-toggle text text-light">
+      Welcome User
+    </a>
+
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#"
+        ><i class="fa fa-user"></i>Edit Profile</a
+      >
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a>
+    </div>
+  </div>
+
+  <form
+    *ngIf = "!loggedIn()"
+    #loginform="ngForm"
+    class="form-inline my-2 my-lg-0"
+    (submit)="login()"
+  >
+    <input
+      name="username"
+      required
+      [(ngModel)]="model.Username"
       class="form-control mr-sm-2"
       type="text"
       placeholder="Username"
       aria-label="Username"
     />
-    <input name="Password" required [(ngModel)]= model.Password
+    <input
+      name="Password"
+      required
+      [(ngModel)]="model.Password"
       class="form-control mr-sm-2"
       type="text"
       placeholder="Password"
