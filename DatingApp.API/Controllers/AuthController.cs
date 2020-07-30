@@ -19,10 +19,10 @@ namespace DatingApp.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo,IConfiguration config)
+        public AuthController(IAuthRepository repo, IConfiguration config)
         {
             _repo = repo;
-            _config=config;
+            _config = config;
 
         }
 
@@ -60,20 +60,21 @@ namespace DatingApp.API.Controllers
                 new Claim(ClaimTypes.Name,userFromRepo.Username)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-            
-            var signCredential = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
+
+            var signCredential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
-                SigningCredentials =signCredential
+                SigningCredentials = signCredential
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new {
+            return Ok(new
+            {
                 token = tokenHandler.WriteToken(token)
             });
         }
